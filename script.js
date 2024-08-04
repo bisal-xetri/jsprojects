@@ -147,7 +147,10 @@ const calDisplaySummary=function(movements){
   labelSumIn.textContent = `${incomes}€`;
   const outgoings=movements.filter(mov=>mov<0).reduce((acc,mov)=>acc+Math.abs(mov),0);
   labelSumOut.textContent = `${outgoings}€`;
-  const interest=movements.filter(mov=>mov>0).map(mov=>mov*1.2/100).reduce((acc,mov)=>acc+mov,0);
+  const interest=movements.filter(mov=>mov>0).map(mov=>mov*1.2/100)
+  .filter((int,i,arr)=>{
+    return int>=1;
+  }).reduce((acc,mov)=>acc+mov,0);
   labelSumInterest.textContent = `${interest}€`;
 }
 calDisplaySummary(account1.movements);
