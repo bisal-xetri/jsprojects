@@ -133,11 +133,10 @@ containerMovements.innerHTML='';//textContent
 
 }
 
-
-
-const calcPrintbalance=function(movements){
-  const balance=movements.reduce((acc,mov)=>acc+mov,0);
-  labelBalance.textContent = `${balance}EUR`
+//print total balance
+  const calcPrintbalance=function(acc){
+    acc.balance=acc.movements.reduce((acc,mov)=>acc+mov,0);
+  labelBalance.textContent = `${acc.balance}€`
 }
 
 
@@ -170,6 +169,13 @@ accs.forEach(function(acc){
 // const user='Steven Thomas Williams';
 createUsername(accounts);
 // console.log(accounts);
+
+const updateUI=function(acc){
+  displayMovements(acc.movements);
+  calcPrintbalance(acc);
+  calDisplaySummary(acc);
+}
+
 let currentAccount;
 btnLogin.addEventListener('click',function(e){
   e.preventDefault();// prevents from from submitting
@@ -186,15 +192,44 @@ if(currentAccount?.pin===Number(inputLoginPin.value)){
   inputLoginUsername.value=inputLoginPin.value='';
   inputLoginPin.blur();
 
-  //display movements
-displayMovements(currentAccount.movements);
-  //display balance
-  calcPrintbalance(currentAccount.movements);
+  updateUI(currentAccount);
 
-  //display summary
-  calDisplaySummary(currentAccount)
+//   //display movements
+// displayMovements(currentAccount.movements);
+//   //display balance
+//   calcPrintbalance(currentAccount);
+
+//   //display summary
+//   calDisplaySummary(currentAccount)
 }
 })
+//transfer amount
+
+btnTransfer.addEventListener('click', function(e) {
+  e.preventDefault();
+  const amount = Number(inputTransferAmount.value);
+  const receiverAcc = accounts.find(acc => acc.username === inputTransferTo.value);
+  
+  // // Debugging logs
+  // console.log('Transfer amount:', amount);
+  // console.log('Receiver account:', receiverAcc);
+  // console.log('Current account balance:', currentAccount.balance);
+  // console.log('Current account username:', currentAccount.username);
+  // console.log('Receiver account username:', receiverAcc?.username);
+  inputTransferAmount.value=inputTransferTo.value='';
+  if (amount > 0 &&
+      receiverAcc &&
+      currentAccount.balance >= amount &&
+      receiverAcc?.username !== currentAccount.username) {
+    console.log('Transfer conditions met');
+    currentAccount.movements.push(-amount);
+    receiverAcc.movements.push(amount);
+    updateUI(currentAccount);
+  } else {
+    console.log('Transfer conditions not met');
+  }
+});
+
 
 
 // //console.log(containerMovements.innerHTML);
