@@ -133,27 +133,27 @@ containerMovements.innerHTML='';//textContent
 
 }
 
-displayMovements(account1.movements);
+
 
 const calcPrintbalance=function(movements){
   const balance=movements.reduce((acc,mov)=>acc+mov,0);
   labelBalance.textContent = `${balance}EUR`
 }
-calcPrintbalance(account1.movements); 
 
 
-const calDisplaySummary=function(movements){
-  const incomes=movements.filter(mov=>mov>0).reduce((acc,mov)=>acc+mov,0);
+
+const calDisplaySummary=function(acc){
+  const incomes=acc.movements.filter(mov=>mov>0).reduce((acc,mov)=>acc+mov,0);
   labelSumIn.textContent = `${incomes}€`;
-  const outgoings=movements.filter(mov=>mov<0).reduce((acc,mov)=>acc+Math.abs(mov),0);
+  const outgoings=acc.movements.filter(mov=>mov<0).reduce((acc,mov)=>acc+Math.abs(mov),0);
   labelSumOut.textContent = `${outgoings}€`;
-  const interest=movements.filter(mov=>mov>0).map(mov=>mov*1.2/100)
+  const interest=acc.movements.filter(mov=>mov>0).map(deposit=>deposit*acc.interestRate/100)
   .filter((int,i,arr)=>{
     return int>=1;
   }).reduce((acc,mov)=>acc+mov,0);
   labelSumInterest.textContent = `${interest}€`;
 }
-calDisplaySummary(account1.movements);
+
 
 
 const createUsername=function(accs){
@@ -168,10 +168,33 @@ accs.forEach(function(acc){
 
 };
 // const user='Steven Thomas Williams';
-// createUsername(accounts);
+createUsername(accounts);
 // console.log(accounts);
+let currentAccount;
+btnLogin.addEventListener('click',function(e){
+  e.preventDefault();// prevents from from submitting
+// console.log('Login');
 
+currentAccount=accounts.find(acc=>acc.username===inputLoginUsername.value);
+console.log(currentAccount);
+if(currentAccount?.pin===Number(inputLoginPin.value)){
+  //display ui and welcome message
+  labelWelcome.textContent = `Welcome back, ${currentAccount.owner.split(' ')[0]}`;
+  containerApp.style.opacity=100;
 
+  //clear input fields
+  inputLoginUsername.value=inputLoginPin.value='';
+  inputLoginPin.blur();
+
+  //display movements
+displayMovements(currentAccount.movements);
+  //display balance
+  calcPrintbalance(currentAccount.movements);
+
+  //display summary
+  calDisplaySummary(currentAccount)
+}
+})
 
 
 // //console.log(containerMovements.innerHTML);
@@ -275,8 +298,31 @@ const max=movements.reduce((acc,curr)=>{
 // console.log(calAverageHumanAge([5,2,4,1,15,8,3]));
 // console.log(calAverageHumanAge([16,6,10,5,]));
 
-const eurToUsd=1.1;
+// const eurToUsd=1.1;
 
-//PIPELINE 
-const totalDepositUSD=movements.filter(mov=>mov>0).map(mov=>mov*eurToUsd).reduce((acc,mov)=>acc+mov,0)
-console.log(totalDepositUSD)
+// //PIPELINE 
+// const totalDepositUSD=movements.filter(mov=>mov>0).map(mov=>mov*eurToUsd).reduce((acc,mov)=>acc+mov,0)
+// console.log(totalDepositUSD)
+
+// //coding challenge 3
+// const calAverageHumanAge=ages=>
+//   ages.map(age=>(age<=2?2*age:16+age*4)).filter(age=>age>=18).reduce((acc,cur,i,arr)=>acc+cur/arr.length);
+
+// console.log(calAverageHumanAge([16,6,10,5,6,1,4]));
+
+
+
+//find method loops over a array returns first element from which conditions is true 
+//find method examples
+// const firstWithdrawls=movements.find(mov=>mov<0);
+// console.log(firstWithdrawls);
+
+// const account=accounts.find(acc=>acc.owner==='Jessica Davis');
+// console.log(account);
+
+// for(const acc of accounts){
+//   if (acc.owner==='Jessica Davis')
+//     console.log(acc);
+// }
+
+
