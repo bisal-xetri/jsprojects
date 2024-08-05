@@ -440,24 +440,55 @@ const arrDeep=[[[1,2],3],[4,[5,6]],7,8];
 // console.log(overallBalance1);
 
 //sort method
- const owners=['Bishal','Bibek','Sita','Sijan'];
- console.log(owners.sort());
- console.log(owners);
+//  const owners=['Bishal','Bibek','Sita','Sijan'];
+//  console.log(owners.sort());
+//  console.log(owners);
 
- console.log(movements);
-// console.log(movements.sort())
+//  console.log(movements);
+// // console.log(movements.sort())
 
-//return <0,a,b(keep order)
-//return>0,b,a(switch order)
-movements.sort((a,b)=>a-b);
-console.log(movements)
+// //return <0,a,b(keep order)
+// //return>0,b,a(switch order)
+// movements.sort((a,b)=>a-b);
+// console.log(movements)
 
-//descending
-//movements.sort((a,b)=>b-a);
-movements.sort((a,b)=>{
-  if(a>b){
-    return -1;
-  }if(b>a)
-    return 1;
+// //descending
+// //movements.sort((a,b)=>b-a);
+// movements.sort((a,b)=>{
+//   if(a>b){
+//     return -1;
+//   }if(b>a)
+//     return 1;
+//   })
+//   // console.log(movements)
+
+// const arr1=[1,2,3,4,5,6,7];
+// console.log(new Array(1,2,3,4,5,6,7));
+// const x=new Array(7);
+
+// //fill method
+// //x.fill(1);
+// x.fill(1,3,5);
+// console.log(x);
+// arr1.fill(10,2,5)
+// console.log(arr1);
+
+//array.form
+
+const y=Array.from({length:7},()=>1);
+console.log(y);
+
+const z=Array.from({length:7},(cur,i)=>i+1);
+console.log(z);
+
+const movementsUI=Array.from(document.querySelectorAll('.movements__value'))
+  console.log(movementsUI);
+
+  labelBalance.addEventListener('click',function(){
+    const movementsUI=Array.from(document.querySelectorAll('.movements__value'),el=>Number(el.textContent.replace('€','')));
+
+  console.log(movementsUI);
+
+  // const movementsUI2=[...document.querySelectorAll('.movements.value')];
+  
   })
-  console.log(movements)
