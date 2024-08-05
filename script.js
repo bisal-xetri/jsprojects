@@ -116,10 +116,12 @@ const currencies=new Map([
 //dom manupluation
 //dom manupluation
 
-const displayMovements=function(movements){
+const displayMovements=function(movements,sort=false){
 containerMovements.innerHTML='';//textContent
 
-  movements.forEach(function(mov,i){
+
+ const movs=sort?movements.slice().sort((a,b)=>a-b):movements;
+  movs.forEach(function(mov,i){
     const type=mov>0?'deposit':'withdrawal';
     const html=`
      <div class="movements__row">
@@ -221,7 +223,7 @@ btnTransfer.addEventListener('click', function(e) {
       receiverAcc &&
       currentAccount.balance >= amount &&
       receiverAcc?.username !== currentAccount.username) {
-    console.log('Transfer conditions met');
+    // console.log('Transfer conditions met');
     currentAccount.movements.push(-amount);
     receiverAcc.movements.push(amount);
     updateUI(currentAccount);
@@ -230,6 +232,40 @@ btnTransfer.addEventListener('click', function(e) {
   }
 });
 
+//working on loan
+
+btnLoan.addEventListener('click',function(e){
+  e.preventDefault();
+  const amount=Number(inputLoanAmount.value);
+  if(amount>0&& currentAccount.movements.some(mov=>mov>=amount*0.1)){
+    //add movement
+    currentAccount.movements.push(amount);
+
+    updateUI(currentAccount);
+  }
+  inputLoanAmount.value='';
+})
+//find index method
+
+btnClose.addEventListener('click', function(e){
+  e.preventDefault();
+  if(inputCloseUsername.value===currentAccount.username&&Number(inputClosePin.value)===currentAccount.pin){
+
+const index=accounts.findIndex(acc=>acc.username===currentAccount.username);
+    accounts.splice(index,1);
+    // console.log(index);
+    //hideui
+    containerApp.style.opacity=0;
+  }
+  inputCloseUsername.value=inputClosePin.value='';
+})
+
+let sorted=false;
+btnSort.addEventListener('click',function(e){
+  e.preventDefault();
+  displayMovements(currentAccount.movements,!sorted);
+  sorted=!sorted;
+})
 
 
 // //console.log(containerMovements.innerHTML);
@@ -361,3 +397,67 @@ const max=movements.reduce((acc,curr)=>{
 // }
 
 
+//
+
+// console.log(movements);
+
+// //check for equality
+// console.log(movements.includes(-130));
+
+// //Some method if any
+// const anyDeposits=movements.some(mov=>mov>0);
+// console.log(anyDeposits);
+
+// //every method all condition must be true
+// console.log(movements.every(mov=>mov>0));
+
+// //Separate callback
+// const deposit=mov=>mov<0;
+// console.log(movements.some(deposit));
+// console.log(movements.every(deposit));
+// console.log(movements.filter(deposit));
+
+//flat method
+const arr=[[1,2,3],[4,5,6],7,8];
+// console.log(arr.flat());//flat method remove nestade array
+
+const arrDeep=[[[1,2],3],[4,[5,6]],7,8];
+// console.log(arrDeep.flat(2))//goes second level of nesting
+
+// const countMovement=accounts.map(acc=>acc.movements);
+
+// console.log(countMovement);
+// const allMovements=countMovement.flat();
+// console.log(allMovements);
+// const overallBalance=allMovements.reduce((acc,mov)=>acc+mov,0);
+// console.log(overallBalance);
+
+// const overallBalance=accounts.map(acc=>acc.movements).flat().reduce((acc,mov)=>acc+mov,0);
+// console.log(overallBalance);
+
+// //FlatMap goes 1 level deep only
+// const overallBalance1=accounts.flatMap(acc=>acc.movements).reduce((acc,mov)=>acc+mov,0);
+// console.log(overallBalance1);
+
+//sort method
+ const owners=['Bishal','Bibek','Sita','Sijan'];
+ console.log(owners.sort());
+ console.log(owners);
+
+ console.log(movements);
+// console.log(movements.sort())
+
+//return <0,a,b(keep order)
+//return>0,b,a(switch order)
+movements.sort((a,b)=>a-b);
+console.log(movements)
+
+//descending
+//movements.sort((a,b)=>b-a);
+movements.sort((a,b)=>{
+  if(a>b){
+    return -1;
+  }if(b>a)
+    return 1;
+  })
+  console.log(movements)
