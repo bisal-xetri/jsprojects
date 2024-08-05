@@ -475,11 +475,11 @@ const arrDeep=[[[1,2],3],[4,[5,6]],7,8];
 
 //array.form
 
-const y=Array.from({length:7},()=>1);
-console.log(y);
+// const y=Array.from({length:7},()=>1);
+// console.log(y);
 
-const z=Array.from({length:7},(cur,i)=>i+1);
-console.log(z);
+// const z=Array.from({length:7},(cur,i)=>i+1);
+// console.log(z);
 
 const movementsUI=Array.from(document.querySelectorAll('.movements__value'))
   console.log(movementsUI);
@@ -492,3 +492,62 @@ const movementsUI=Array.from(document.querySelectorAll('.movements__value'))
   // const movementsUI2=[...document.querySelectorAll('.movements.value')];
   
   })
+
+  //which method use 
+  // mutated originalArray .push  .unshift for add pop shift splice for remove  reverse sort fill 
+   
+  //a new array .map for loop filter .slice .concat .flat .flatMap
+
+  //an array index based on Value .indexOf based on Condition .findIndex 
+  //an array element .find
+
+  // know if array include based on values .include based on test condition .some and .every
+  //a new string .join based on separator
+  
+  //to transform to value ,reduce based on accumulator
+
+  //to just loop the array based on coll back .forEach
+
+
+//Array method practice
+
+// const bankDepositSum=accounts.flatMap(acc=>acc.movements).filter(mov=>mov>0).reduce((acc,cur)=>acc+cur,0);
+// console.log(bankDepositSum);
+
+// //2
+// const numDeposit1000=accounts.flatMap(acc=>acc.movements).filter(mov=>mov>=1000).length;
+// console.log(numDeposit1000)
+
+// const numDeposit10001=accounts.flatMap(acc=>acc.movements).reduce((count,cur)=>(cur>=1000?++count:count) , 0);
+// console.log(numDeposit10001)
+
+// //reference ++ operator
+// let a=10;
+// console.log(++a);
+// console.log(a);
+
+//3
+// const sums=accounts.flatMap(acc=>acc.movements).reduce((sum,cur)=>{
+
+// // cur>0?(sum.deposits+=cur):(sum.withdrawals+=cur);
+// sum[cur>0?'deposits':'withdrawals']+=cur;
+// return sum;
+
+// },{deposits:0, withdrawals:0})
+// console.log(sums);
+
+// this is a nice title> This Is a Nice Title
+
+const convertTitleCase=function(title){
+
+  const capitalize=str=>str[0].toUpperCase()+str.slice(1);
+const exceptions=['a','an','the','but','and','or','on','in','with'];
+
+const titleCase=title.toLowerCase()
+.split(' ')
+.map(word=>exceptions.includes(word)?word:capitalize(word)).join(' ');
+return capitalize(titleCase);
+
+};
+console.log(convertTitleCase('this is a nice title'));
+console.log(convertTitleCase('this is a LONG title but not too long'));
