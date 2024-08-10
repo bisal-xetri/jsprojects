@@ -9,7 +9,10 @@ const btnCloseModal = document.querySelector('.btn--close-modal');
 const btnsOpenModal = document.querySelectorAll('.btn--show-modal');
 const btnScrollTo = document.querySelector('.btn--scroll-to');
 const section1 = document.querySelector('#section--1');
-
+const tabs=document.querySelectorAll('.operations__tab');
+const tabsContainer=document.querySelector('.operations__tab-container');
+const tabsContain=document.querySelectorAll('.operations__content');
+const nav= document.querySelector('.nav')
 const openModal = function (e) {
   e.preventDefault();
   modal.classList.remove('hidden');
@@ -82,9 +85,7 @@ document.querySelector('.nav__links').addEventListener('click', function (e) {
 });
 
 //tabbed component
-const tabs=document.querySelectorAll('.operations__tab');
-const tabsContainer=document.querySelector('.operations__tab-container');
-const tabsContain=document.querySelectorAll('.operations__content');
+
  
 // tabs.forEach(t=>t.addEventListener('click',()=>{
 //   console.log('TAB');
@@ -102,6 +103,34 @@ tabsContainer.addEventListener('click',function(e){
   //activate content area
   document.querySelector(`.operations__content--${clicked.dataset.tab}`).classList.add('operations__content--active');
 })
+
+
+//menu fade animation
+
+const handHover=function(e,opacity){
+  // console.log(this,e.currentTarget)
+  if(e.target.classList.contains('nav__link')){
+    const link=e.target;
+    const sibling=link.closest('.nav').querySelectorAll('.nav__link');
+    const logo=link.closest('.nav').querySelector('img');
+  
+  
+    sibling.forEach(el=>{
+      if(el!==link){
+        el.style.opacity=this;
+      }
+      
+    })
+    logo.style.opacity=this;
+  }
+}
+
+//passing 'argument' into handler
+nav.addEventListener('mouseover',handHover.bind(0.5));
+nav.addEventListener('mouseout',handHover.bind(1));
+
+
+
 
 //select create and delete elements
 // console.log(document.documentElement);
